@@ -1,7 +1,7 @@
 
-# JD Jazz Dance Academy
+# JD Jazz
 
-A modern, responsive website for JD Jazz Dance Academy built with React, TypeScript, and Tailwind CSS.
+A modern, responsive website for JD Jazz built with React, TypeScript, and Tailwind CSS.
 
 ## Features
 
@@ -93,5 +93,5 @@ The built files in the `dist/` folder can be deployed to any static hosting serv
 
 ## License
 
-This project is private and proprietary to JD Jazz Dance Academy.
+This project is private and proprietary to JD Jazz.
   
