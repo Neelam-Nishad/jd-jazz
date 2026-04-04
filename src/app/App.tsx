@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Menu, X, Facebook, Instagram, Mail, Phone, MapPin, Play } from 'lucide-react';
 import { motion } from 'motion/react';
 import {
@@ -13,6 +13,7 @@ export default function App() {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -20,6 +21,20 @@ export default function App() {
     eventType: '',
     message: ''
   });
+
+  const bannerImages = [
+    '/banner/sangeet.png',
+    '/banner/Corporate.png',
+    '/banner/garba.png'
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % bannerImages.length);
+    }, 4000); // Change image every 4 seconds
+
+    return () => clearInterval(interval);
+  }, [bannerImages.length]);
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -181,51 +196,102 @@ export default function App() {
         </div>
       </nav>
 
-      {/* Availability Banner */}
-      <section className="pt-16 bg-gradient-to-r from-slate-900/80 via-blue-900/80 to-slate-800/80 border-b border-blue-500/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Banner Carousel */}
+      <section className="relative h-96 md:h-[500px] overflow-hidden">
+        <div className="relative w-full h-full">
+          {bannerImages.map((image, index) => (
+            <motion.div
+              key={index}
+              className={`absolute inset-0 transition-opacity duration-1000 ${
+                index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+              }`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: index === currentImageIndex ? 1 : 0 }}
+              transition={{ duration: 1 }}
+            >
+              <img
+                src={image}
+                alt={`Banner ${index + 1}`}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-black/50"></div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Text Overlay */}
+        <div className="absolute inset-0 flex items-center justify-center z-10 px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-left md:text-center"
+            className="text-center text-white max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 w-full"
           >
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-center gap-6 text-white">
-              <div className="flex items-center gap-3">
-                <div className="bg-blue-600 p-3 rounded-full">
-                  <MapPin size={24} />
+            <div className="flex flex-col items-center justify-center gap-4 sm:gap-6 mb-4 sm:mb-6">
+              <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-6 w-full max-w-4xl">
+                <div className="flex items-center gap-3 flex-1 justify-center sm:justify-start">
+                  <div className="bg-blue-600 p-2 sm:p-3 rounded-full flex-shrink-0">
+                    <MapPin size={20} className="sm:w-6 sm:h-6" />
+                  </div>
+                  <div className="text-center sm:text-left">
+                    <p className="text-xs sm:text-sm text-gray-300">In-Person Classes</p>
+                    <p className="text-sm sm:text-lg font-semibold">Available Across India</p>
+                  </div>
                 </div>
-                <div className="text-left">
-                  <p className="text-sm text-gray-300">In-Person Classes</p>
-                  <p className="text-lg font-semibold">Available Across India</p>
+                <div className="hidden sm:block h-8 sm:h-12 w-px bg-blue-500/30"></div>
+                <div className="flex items-center gap-3 flex-1 justify-center sm:justify-start">
+                  <div className="bg-slate-600 p-2 sm:p-3 rounded-full flex-shrink-0">
+                    <Play size={20} className="sm:w-6 sm:h-6" />
+                  </div>
+                  <div className="text-center sm:text-left">
+                    <p className="text-xs sm:text-sm text-gray-300">Online Choreography</p>
+                    <p className="text-sm sm:text-lg font-semibold">Teach Worldwide</p>
+                  </div>
                 </div>
-              </div>
-              <div className="hidden md:block h-12 w-px bg-blue-500/30"></div>
-              <div className="flex items-center gap-3">
-                <div className="bg-slate-600 p-3 rounded-full">
-                  <Play size={24} />
-                </div>
-                <div className="text-left">
-                  <p className="text-sm text-gray-300">Online Choreography</p>
-                  <p className="text-lg font-semibold">Teach Worldwide</p>
-                </div>
-              </div>
-              <div className="hidden md:block h-12 w-px bg-blue-500/30"></div>
-              <div className="flex items-center gap-3">
-                <div className="bg-slate-700 p-3 rounded-full">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                </div>
-                <div className="text-left">
-                  <p className="text-sm text-gray-300">Event Performances</p>
-                  <p className="text-lg font-semibold">Professional Dancers</p>
+                <div className="hidden sm:block h-8 sm:h-12 w-px bg-blue-500/30"></div>
+                <div className="flex items-center gap-3 flex-1 justify-center sm:justify-start">
+                  <div className="bg-slate-700 p-2 sm:p-3 rounded-full flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="sm:w-6 sm:h-6"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                  </div>
+                  <div className="text-center sm:text-left">
+                    <p className="text-xs sm:text-sm text-gray-300">Event Performances</p>
+                    <p className="text-sm sm:text-lg font-semibold">Professional Dancers</p>
+                  </div>
                 </div>
               </div>
             </div>
-            <p className="mt-6 text-gray-300 text-lg max-w-3xl mx-auto">
+            <p className="text-gray-300 text-sm sm:text-base lg:text-lg max-w-3xl mx-auto px-2">
               We teach choreography to individuals and groups, and provide professional performance teams for weddings, corporate events, and cultural celebrations
             </p>
           </motion.div>
         </div>
+
+        {/* Carousel Indicators */}
+        <div className="absolute bottom-2 sm:bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
+          {bannerImages.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentImageIndex(index)}
+              className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all ${
+                index === currentImageIndex ? 'bg-blue-500' : 'bg-white/50'
+              }`}
+            />
+          ))}
+        </div>
+
+        {/* Navigation Arrows */}
+        <button
+          onClick={() => setCurrentImageIndex((prevIndex) => (prevIndex - 1 + bannerImages.length) % bannerImages.length)}
+          className="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-1.5 sm:p-2 rounded-full hover:bg-black/70 transition z-20"
+        >
+          ‹
+        </button>
+        <button
+          onClick={() => setCurrentImageIndex((prevIndex) => (prevIndex + 1) % bannerImages.length)}
+          className="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-1.5 sm:p-2 rounded-full hover:bg-black/70 transition z-20"
+        >
+          ›
+        </button>
       </section>
 
       {/* Video Gallery - MOVED TO TOP */}
