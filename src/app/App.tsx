@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Menu, X, Facebook, Instagram, Mail, Phone, MapPin, Play } from 'lucide-react';
 import { motion } from 'motion/react';
 import {
@@ -13,6 +13,7 @@ export default function App() {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -20,6 +21,20 @@ export default function App() {
     eventType: '',
     message: ''
   });
+
+  const bannerImages = [
+    '/banner/sangeet.png',
+    '/banner/Corporate.png',
+    '/banner/garba.png'
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % bannerImages.length);
+    }, 4000); // Change image every 4 seconds
+
+    return () => clearInterval(interval);
+  }, [bannerImages.length]);
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -33,7 +48,7 @@ export default function App() {
     setSubmitStatus(null);
 
     const emailForm = new FormData();
-    emailForm.append('_subject', 'DanceVibes Inquiry');
+    emailForm.append('_subject', 'JD Jazz Inquiry');
     emailForm.append('_template', 'table');
     emailForm.append('_captcha', 'false');
     emailForm.append('Name', formData.name);
@@ -105,7 +120,7 @@ export default function App() {
     {
       id: 4,
       title: 'Group / Individual Dance Classes',
-      thumbnail: 'https://vumbnail.com/1180158382.jpg',
+      thumbnail: 'https://i.pinimg.com/736x/6b/52/6a/6b526abd77989e56df3623c01c6ada09.jpg',
       url: 'https://player.vimeo.com/video/1180158382'
     }
   ];
@@ -136,23 +151,23 @@ export default function App() {
   return (
     <div className="min-h-screen bg-black">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-black/95 backdrop-blur-sm border-b border-fuchsia-500/20 z-50">
+      <nav className="fixed top-0 w-full bg-black/95 backdrop-blur-sm border-b border-blue-500/20 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="text-2xl font-bold bg-gradient-to-r from-fuchsia-500 via-purple-500 to-orange-500 bg-clip-text text-transparent">
-              DanceVibes
+            <div className="text-2xl font-bold bg-gradient-to-r from-slate-800 via-blue-900 to-slate-700 bg-clip-text text-transparent">
+              JD Jazz
             </div>
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-8">
               <button onClick={() => scrollToSection('work')} className="text-gray-300 hover:text-fuchsia-400 transition">Our Work</button>
               <button onClick={() => scrollToSection('services')} className="text-gray-300 hover:text-fuchsia-400 transition">Services</button>
-              <button onClick={() => scrollToSection('team')} className="text-gray-300 hover:text-fuchsia-400 transition">Team</button>
-              <button onClick={() => scrollToSection('testimonials')} className="text-gray-300 hover:text-fuchsia-400 transition">Testimonials</button>
-              <button onClick={() => scrollToSection('contact')} className="text-gray-300 hover:text-fuchsia-400 transition">Contact</button>
+              <button onClick={() => scrollToSection('team')} className="text-gray-300 hover:text-blue-400 transition">Team</button>
+              <button onClick={() => scrollToSection('testimonials')} className="text-gray-300 hover:text-blue-400 transition">Testimonials</button>
+              <button onClick={() => scrollToSection('contact')} className="text-gray-300 hover:text-blue-400 transition">Contact</button>
               <button
                 onClick={() => scrollToSection('quote')}
-                className="bg-gradient-to-r from-fuchsia-500 to-purple-600 text-white px-6 py-2 rounded-full hover:from-fuchsia-600 hover:to-purple-700 transition shadow-lg shadow-fuchsia-500/30"
+                className="bg-gradient-to-r from-blue-600 to-slate-700 text-white px-6 py-2 rounded-full hover:from-blue-700 hover:to-slate-800 transition shadow-lg shadow-blue-500/30"
               >
                 Book Now
               </button>
@@ -160,7 +175,7 @@ export default function App() {
 
             {/* Mobile Menu Button */}
             <button
-              className="md:hidden text-fuchsia-400"
+              className="md:hidden text-blue-400"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -170,78 +185,129 @@ export default function App() {
           {/* Mobile Menu */}
           {isMenuOpen && (
             <div className="md:hidden pb-4 bg-black/95">
-              <button onClick={() => scrollToSection('work')} className="block w-full text-left py-2 text-gray-300 hover:text-fuchsia-400">Our Work</button>
-              <button onClick={() => scrollToSection('services')} className="block w-full text-left py-2 text-gray-300 hover:text-fuchsia-400">Services</button>
-              <button onClick={() => scrollToSection('team')} className="block w-full text-left py-2 text-gray-300 hover:text-fuchsia-400">Team</button>
-              <button onClick={() => scrollToSection('testimonials')} className="block w-full text-left py-2 text-gray-300 hover:text-fuchsia-400">Testimonials</button>
-              <button onClick={() => scrollToSection('contact')} className="block w-full text-left py-2 text-gray-300 hover:text-fuchsia-400">Contact</button>
-              <button onClick={() => scrollToSection('quote')} className="block w-full text-left py-2 text-fuchsia-400 hover:text-fuchsia-300 font-semibold">Book Now</button>
+              <button onClick={() => scrollToSection('work')} className="block w-full text-left py-2 text-gray-300 hover:text-blue-400">Our Work</button>
+              <button onClick={() => scrollToSection('services')} className="block w-full text-left py-2 text-gray-300 hover:text-blue-400">Services</button>
+              <button onClick={() => scrollToSection('team')} className="block w-full text-left py-2 text-gray-300 hover:text-blue-400">Team</button>
+              <button onClick={() => scrollToSection('testimonials')} className="block w-full text-left py-2 text-gray-300 hover:text-blue-400">Testimonials</button>
+              <button onClick={() => scrollToSection('contact')} className="block w-full text-left py-2 text-gray-300 hover:text-blue-400">Contact</button>
+              <button onClick={() => scrollToSection('quote')} className="block w-full text-left py-2 text-blue-400 hover:text-blue-300 font-semibold">Book Now</button>
             </div>
           )}
         </div>
       </nav>
 
-      {/* Availability Banner */}
-      <section className="pt-16 bg-gradient-to-r from-fuchsia-900/80 via-purple-900/80 to-orange-900/80 border-b border-fuchsia-500/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Banner Carousel */}
+      <section className="relative h-96 md:h-[500px] overflow-hidden">
+        <div className="relative w-full h-full">
+          {bannerImages.map((image, index) => (
+            <motion.div
+              key={index}
+              className={`absolute inset-0 transition-opacity duration-1000 ${
+                index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+              }`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: index === currentImageIndex ? 1 : 0 }}
+              transition={{ duration: 1 }}
+            >
+              <img
+                src={image}
+                alt={`Banner ${index + 1}`}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-black/50"></div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Text Overlay */}
+        <div className="absolute inset-0 flex items-center justify-center z-10 px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-left md:text-center"
+            className="text-center text-white max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 w-full"
           >
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-center gap-6 text-white">
-              <div className="flex items-center gap-3">
-                <div className="bg-fuchsia-500 p-3 rounded-full">
-                  <MapPin size={24} />
+            <div className="flex flex-col items-center justify-center gap-4 sm:gap-6 mb-4 sm:mb-6">
+              <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-6 w-full max-w-4xl">
+                <div className="flex items-center gap-3 flex-1 justify-center sm:justify-start">
+                  <div className="bg-blue-600 p-2 sm:p-3 rounded-full flex-shrink-0">
+                    <MapPin size={20} className="sm:w-6 sm:h-6" />
+                  </div>
+                  <div className="text-center sm:text-left">
+                    <p className="text-xs sm:text-sm text-gray-300">In-Person Classes</p>
+                    <p className="text-sm sm:text-lg font-semibold">Available Across India</p>
+                  </div>
                 </div>
-                <div className="text-left">
-                  <p className="text-sm text-gray-300">In-Person Classes</p>
-                  <p className="text-lg font-semibold">Available Across India</p>
+                <div className="hidden sm:block h-8 sm:h-12 w-px bg-blue-500/30"></div>
+                <div className="flex items-center gap-3 flex-1 justify-center sm:justify-start">
+                  <div className="bg-slate-600 p-2 sm:p-3 rounded-full flex-shrink-0">
+                    <Play size={20} className="sm:w-6 sm:h-6" />
+                  </div>
+                  <div className="text-center sm:text-left">
+                    <p className="text-xs sm:text-sm text-gray-300">Online Choreography</p>
+                    <p className="text-sm sm:text-lg font-semibold">Teach Worldwide</p>
+                  </div>
                 </div>
-              </div>
-              <div className="hidden md:block h-12 w-px bg-fuchsia-500/30"></div>
-              <div className="flex items-center gap-3">
-                <div className="bg-purple-500 p-3 rounded-full">
-                  <Play size={24} />
-                </div>
-                <div className="text-left">
-                  <p className="text-sm text-gray-300">Online Choreography</p>
-                  <p className="text-lg font-semibold">Teach Worldwide</p>
-                </div>
-              </div>
-              <div className="hidden md:block h-12 w-px bg-fuchsia-500/30"></div>
-              <div className="flex items-center gap-3">
-                <div className="bg-orange-500 p-3 rounded-full">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                </div>
-                <div className="text-left">
-                  <p className="text-sm text-gray-300">Event Performances</p>
-                  <p className="text-lg font-semibold">Professional Dancers</p>
+                <div className="hidden sm:block h-8 sm:h-12 w-px bg-blue-500/30"></div>
+                <div className="flex items-center gap-3 flex-1 justify-center sm:justify-start">
+                  <div className="bg-slate-700 p-2 sm:p-3 rounded-full flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="sm:w-6 sm:h-6"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                  </div>
+                  <div className="text-center sm:text-left">
+                    <p className="text-xs sm:text-sm text-gray-300">Event Performances</p>
+                    <p className="text-sm sm:text-lg font-semibold">Professional Dancers</p>
+                  </div>
                 </div>
               </div>
             </div>
-            <p className="mt-6 text-gray-300 text-lg max-w-3xl mx-auto">
+            <p className="text-gray-300 text-sm sm:text-base lg:text-lg max-w-3xl mx-auto px-2">
               We teach choreography to individuals and groups, and provide professional performance teams for weddings, corporate events, and cultural celebrations
             </p>
           </motion.div>
         </div>
+
+        {/* Carousel Indicators */}
+        <div className="absolute bottom-2 sm:bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
+          {bannerImages.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentImageIndex(index)}
+              className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all ${
+                index === currentImageIndex ? 'bg-blue-500' : 'bg-white/50'
+              }`}
+            />
+          ))}
+        </div>
+
+        {/* Navigation Arrows */}
+        <button
+          onClick={() => setCurrentImageIndex((prevIndex) => (prevIndex - 1 + bannerImages.length) % bannerImages.length)}
+          className="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-1.5 sm:p-2 rounded-full hover:bg-black/70 transition z-20"
+        >
+          ‹
+        </button>
+        <button
+          onClick={() => setCurrentImageIndex((prevIndex) => (prevIndex + 1) % bannerImages.length)}
+          className="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-1.5 sm:p-2 rounded-full hover:bg-black/70 transition z-20"
+        >
+          ›
+        </button>
       </section>
 
       {/* Video Gallery - MOVED TO TOP */}
-      <section id="work" className="py-20 bg-gradient-to-b from-black to-gray-900">
+      <section id="work" className="py-12 md:py-20 bg-gradient-to-b from-black to-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-8 md:mb-16"
           >
-            <h2 className="text-3xl md:text-5xl mb-4 bg-gradient-to-r from-fuchsia-400 via-purple-400 to-orange-400 bg-clip-text text-transparent">
+            <h2 className="text-3xl md:text-5xl mb-4 bg-gradient-to-r from-blue-400 via-slate-400 to-blue-500 bg-clip-text text-transparent">
               Watch Our Performances
             </h2>
-            <p className="text-gray-400 text-lg">See the energy and passion we bring to every event</p>
+            <p className="hidden md:block text-gray-400 text-lg">See the energy and passion we bring to every event</p>
           </motion.div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {videos.map((video, index) => (
@@ -262,8 +328,8 @@ export default function App() {
                     e.currentTarget.src = 'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=400&fit=crop';
                   }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-fuchsia-900/90 via-purple-900/50 to-transparent flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
-                  <div className="bg-fuchsia-500 rounded-full p-4">
+                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/90 via-slate-900/50 to-transparent flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                  <div className="bg-blue-600 rounded-full p-4">
                     <Play size={48} className="text-white" fill="white" />
                   </div>
                 </div>
@@ -272,7 +338,7 @@ export default function App() {
                 </div>
                 <button
                   onClick={() => setSelectedVideo(video)}
-                  className="absolute top-2 right-2 bg-fuchsia-500 text-white text-xs px-3 py-1 rounded-full hover:bg-fuchsia-600 transition"
+                  className="absolute top-2 right-2 bg-blue-600 text-white text-xs px-3 py-1 rounded-full hover:bg-blue-700 transition"
                 >
                   Watch Now
                 </button>
@@ -292,7 +358,7 @@ export default function App() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl md:text-5xl mb-4 bg-gradient-to-r from-fuchsia-400 via-purple-400 to-orange-400 bg-clip-text text-transparent">
+            <h2 className="text-3xl md:text-5xl mb-4 bg-gradient-to-r from-blue-400 via-slate-400 to-blue-500 bg-clip-text text-transparent">
               Get a Quote
             </h2>
             <p className="text-gray-400 text-lg">Tell us about your event or learning goals, and we'll get back to you with a personalized quote</p>
@@ -303,7 +369,7 @@ export default function App() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
-            className="bg-gradient-to-br from-fuchsia-900/20 to-purple-900/20 p-8 md:p-12 rounded-2xl border border-fuchsia-500/30 backdrop-blur-sm shadow-2xl"
+            className="bg-gradient-to-br from-blue-900/20 to-slate-900/20 p-8 md:p-12 rounded-2xl border border-blue-500/30 backdrop-blur-sm shadow-2xl"
           >
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
@@ -314,7 +380,7 @@ export default function App() {
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-900 border border-fuchsia-500/30 rounded-lg focus:outline-none focus:border-fuchsia-500 text-white placeholder-gray-500"
+                    className="w-full px-4 py-3 bg-gray-900 border border-blue-500/30 rounded-lg focus:outline-none focus:border-blue-500 text-white placeholder-gray-500"
                     placeholder="Your name"
                   />
                 </div>
@@ -325,7 +391,7 @@ export default function App() {
                     required
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-900 border border-fuchsia-500/30 rounded-lg focus:outline-none focus:border-fuchsia-500 text-white placeholder-gray-500"
+                    className="w-full px-4 py-3 bg-gray-900 border border-blue-500/30 rounded-lg focus:outline-none focus:border-blue-500 text-white placeholder-gray-500"
                     placeholder="+91 98765 43210"
                   />
                 </div>
@@ -337,7 +403,7 @@ export default function App() {
                   required
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-4 py-3 bg-gray-900 border border-fuchsia-500/30 rounded-lg focus:outline-none focus:border-fuchsia-500 text-white placeholder-gray-500"
+                  className="w-full px-4 py-3 bg-gray-900 border border-blue-500/30 rounded-lg focus:outline-none focus:border-blue-500 text-white placeholder-gray-500"
                   placeholder="your@email.com"
                 />
               </div>
@@ -347,7 +413,7 @@ export default function App() {
                   required
                   value={formData.eventType}
                   onChange={(e) => setFormData({ ...formData, eventType: e.target.value })}
-                  className="w-full px-4 py-3 bg-gray-900 border border-fuchsia-500/30 rounded-lg focus:outline-none focus:border-fuchsia-500 text-white"
+                  className="w-full px-4 py-3 bg-gray-900 border border-blue-500/30 rounded-lg focus:outline-none focus:border-blue-500 text-white"
                 >
                   <option value="">Select service</option>
                   <option value="choreography-wedding">Choreography for Wedding</option>
@@ -366,14 +432,14 @@ export default function App() {
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   rows={4}
-                  className="w-full px-4 py-3 bg-gray-900 border border-fuchsia-500/30 rounded-lg focus:outline-none focus:border-fuchsia-500 text-white placeholder-gray-500"
+                  className="w-full px-4 py-3 bg-gray-900 border border-blue-500/30 rounded-lg focus:outline-none focus:border-blue-500 text-white placeholder-gray-500"
                   placeholder="Event date, location, number of people, or any specific requirements..."
                 />
               </div>
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-gradient-to-r from-fuchsia-500 to-purple-600 text-white py-4 rounded-lg hover:from-fuchsia-600 hover:to-purple-700 transition shadow-lg shadow-fuchsia-500/30 text-lg font-semibold disabled:cursor-not-allowed disabled:opacity-70"
+                className="w-full bg-gradient-to-r from-blue-600 to-slate-700 text-white py-4 rounded-lg hover:from-blue-700 hover:to-slate-800 transition shadow-lg shadow-blue-500/30 text-lg font-semibold disabled:cursor-not-allowed disabled:opacity-70"
               >
                 {isSubmitting ? 'Sending...' : 'Get Your Free Quote'}
               </button>
@@ -398,7 +464,7 @@ export default function App() {
           </p>
           <div className="grid md:grid-cols-3 gap-8">
             <motion.div
-              className="bg-gradient-to-br from-fuchsia-900/40 to-purple-900/40 p-8 rounded-xl shadow-lg border border-fuchsia-500/30 backdrop-blur-sm"
+              className="bg-gradient-to-br from-blue-900/40 to-slate-900/40 p-8 rounded-xl shadow-lg border border-blue-500/30 backdrop-blur-sm"
               whileHover={{ scale: 1.05, borderColor: 'rgb(217 70 239 / 0.6)' }}
               transition={{ duration: 0.3 }}
             >
@@ -453,7 +519,7 @@ export default function App() {
                 viewport={{ once: true }}
               >
                 <a href={member.profile} target="_blank" rel="noopener noreferrer" className="block group">
-                  <div className="relative mb-4 overflow-hidden rounded-full w-48 h-48 mx-auto border-4 border-fuchsia-500/30 group-hover:border-fuchsia-500 transition-all duration-300 shadow-lg shadow-fuchsia-500/20">
+                  <div className="relative mb-4 overflow-hidden rounded-full w-48 h-48 mx-auto border-4 border-blue-500/30 group-hover:border-blue-500 transition-all duration-300 shadow-lg shadow-blue-500/20">
                     <img
                       src={member.image}
                       alt={member.name}
@@ -479,7 +545,7 @@ export default function App() {
             {testimonials.map((testimonial, index) => (
               <motion.div
                 key={index}
-                className="bg-gradient-to-br from-fuchsia-900/20 to-purple-900/20 p-8 rounded-xl shadow-lg border border-fuchsia-500/20 backdrop-blur-sm"
+                className="bg-gradient-to-br from-blue-900/20 to-slate-900/20 p-8 rounded-xl shadow-lg border border-blue-500/20 backdrop-blur-sm"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -488,7 +554,7 @@ export default function App() {
               >
                 <div className="text-4xl text-fuchsia-400 mb-4">"</div>
                 <p className="text-gray-300 mb-6">{testimonial.text}</p>
-                <div className="border-t border-fuchsia-500/30 pt-4">
+                <div className="border-t border-blue-500/30 pt-4">
                   <p className="font-semibold text-white">{testimonial.name}</p>
                   <p className="text-fuchsia-400 text-sm">{testimonial.event}</p>
                 </div>
@@ -515,7 +581,7 @@ export default function App() {
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-900 border border-fuchsia-500/30 rounded-lg focus:outline-none focus:border-fuchsia-500 text-white placeholder-gray-500"
+                    className="w-full px-4 py-3 bg-gray-900 border border-blue-500/30 rounded-lg focus:outline-none focus:border-blue-500 text-white placeholder-gray-500"
                     placeholder="Your name"
                   />
                 </div>
@@ -526,7 +592,7 @@ export default function App() {
                     required
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-900 border border-fuchsia-500/30 rounded-lg focus:outline-none focus:border-fuchsia-500 text-white placeholder-gray-500"
+                    className="w-full px-4 py-3 bg-gray-900 border border-blue-500/30 rounded-lg focus:outline-none focus:border-blue-500 text-white placeholder-gray-500"
                     placeholder="your@email.com"
                   />
                 </div>
@@ -537,7 +603,7 @@ export default function App() {
                     required
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-900 border border-fuchsia-500/30 rounded-lg focus:outline-none focus:border-fuchsia-500 text-white placeholder-gray-500"
+                    className="w-full px-4 py-3 bg-gray-900 border border-blue-500/30 rounded-lg focus:outline-none focus:border-blue-500 text-white placeholder-gray-500"
                     placeholder="+91 98765 43210"
                   />
                 </div>
@@ -547,7 +613,7 @@ export default function App() {
                     required
                     value={formData.eventType}
                     onChange={(e) => setFormData({ ...formData, eventType: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-900 border border-fuchsia-500/30 rounded-lg focus:outline-none focus:border-fuchsia-500 text-white"
+                    className="w-full px-4 py-3 bg-gray-900 border border-blue-500/30 rounded-lg focus:outline-none focus:border-blue-500 text-white"
                   >
                     <option value="">Select event type</option>
                     <option value="wedding">Wedding</option>
@@ -563,14 +629,14 @@ export default function App() {
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     rows={4}
-                    className="w-full px-4 py-3 bg-gray-900 border border-fuchsia-500/30 rounded-lg focus:outline-none focus:border-fuchsia-500 text-white placeholder-gray-500"
+                    className="w-full px-4 py-3 bg-gray-900 border border-blue-500/30 rounded-lg focus:outline-none focus:border-blue-500 text-white placeholder-gray-500"
                     placeholder="Tell us about your event..."
                   />
                 </div>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-fuchsia-500 to-purple-600 text-white py-3 rounded-lg hover:from-fuchsia-600 hover:to-purple-700 transition shadow-lg shadow-fuchsia-500/30 disabled:cursor-not-allowed disabled:opacity-70"
+                  className="w-full bg-gradient-to-r from-blue-600 to-slate-700 text-white py-3 rounded-lg hover:from-blue-700 hover:to-slate-800 transition shadow-lg shadow-blue-500/30 disabled:cursor-not-allowed disabled:opacity-70"
                 >
                   {isSubmitting ? 'Sending...' : 'Send Message'}
                 </button>
@@ -606,14 +672,14 @@ export default function App() {
                     <Mail className="text-fuchsia-400 mt-1" size={24} />
                     <div>
                       <p className="font-semibold text-white">Email</p>
-                      <p className="text-gray-400">info@dancevibes.com</p>
-                      <p className="text-gray-400">bookings@dancevibes.com</p>
+                      <p className="text-gray-400">info@jdjazzacademy.com</p>
+                      <p className="text-gray-400">bookings@jdjazzacademy.com</p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-gradient-to-br from-fuchsia-900/20 to-purple-900/20 p-6 rounded-xl border border-fuchsia-500/30">
+              <div className="bg-gradient-to-br from-blue-900/20 to-slate-900/20 p-6 rounded-xl border border-blue-500/30">
                 <h4 className="text-xl mb-3 text-white">Business Hours</h4>
                 <p className="text-gray-300">Monday - Saturday: 10:00 AM - 8:00 PM</p>
                 <p className="text-gray-300">Sunday: 11:00 AM - 6:00 PM</p>
@@ -624,13 +690,13 @@ export default function App() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gradient-to-b from-gray-900 to-black border-t border-fuchsia-500/20 py-16">
+      <footer className="bg-gradient-to-b from-gray-900 to-black border-t border-blue-500/20 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-12 mb-12">
             {/* Brand */}
             <div className="text-center md:text-left">
-              <div className="text-3xl font-bold bg-gradient-to-r from-fuchsia-500 via-purple-500 to-orange-500 bg-clip-text text-transparent mb-4">
-                DanceVibes
+              <div className="text-3xl font-bold bg-gradient-to-r from-slate-800 via-blue-900 to-slate-700 bg-clip-text text-transparent mb-4">
+                JD Jazz
               </div>
               <p className="text-gray-400">Making every event memorable through the art of dance</p>
             </div>
@@ -654,7 +720,7 @@ export default function App() {
                   href="https://facebook.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-gradient-to-br from-fuchsia-500 to-purple-600 text-white p-4 rounded-full hover:from-fuchsia-600 hover:to-purple-700 transition shadow-lg shadow-fuchsia-500/30 transform hover:scale-110"
+                  className="bg-gradient-to-br from-blue-600 to-slate-700 text-white p-4 rounded-full hover:from-blue-700 hover:to-slate-800 transition shadow-lg shadow-blue-500/30 transform hover:scale-110"
                 >
                   <Facebook size={28} />
                 </a>
@@ -671,15 +737,15 @@ export default function App() {
             </div>
           </div>
 
-          <div className="border-t border-fuchsia-500/20 pt-8 text-center">
-            <p className="text-gray-500">© 2026 DanceVibes. All rights reserved.</p>
+          <div className="border-t border-blue-500/20 pt-8 text-center">
+            <p className="text-gray-500">© 2026 JD Jazz. All rights reserved.</p>
           </div>
         </div>
       </footer>
 
       {/* Video Player Modal */}
       <Dialog open={!!selectedVideo} onOpenChange={() => setSelectedVideo(null)}>
-        <DialogContent className="max-w-4xl w-full bg-black border-fuchsia-500/30">
+        <DialogContent className="max-w-4xl w-full bg-black border-blue-500/30">
           <DialogHeader>
             <DialogTitle className="text-white text-center">
               {selectedVideo?.title}
