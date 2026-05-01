@@ -151,12 +151,10 @@ export default function App() {
   return (
     <div className="min-h-screen bg-black">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-black/95 backdrop-blur-sm border-b border-blue-500/20 z-50">
+      <nav className="fixed top-0 w-full bg-white backdrop-blur-sm border-b border-blue-500/20 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="text-2xl font-bold bg-gradient-to-r from-slate-800 via-blue-900 to-slate-700 bg-clip-text text-transparent">
-              JD Jazz
-            </div>
+              <img src="/logo.jpg" alt="JD Jazz Logo" className="h-16 p-2" />
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-8">
@@ -167,7 +165,7 @@ export default function App() {
               <button onClick={() => scrollToSection('contact')} className="text-gray-300 hover:text-blue-400 transition">Contact</button>
               <button
                 onClick={() => scrollToSection('quote')}
-                className="bg-gradient-to-r from-blue-600 to-slate-700 text-white px-6 py-2 rounded-full hover:from-blue-700 hover:to-slate-800 transition shadow-lg shadow-blue-500/30"
+                className="bg-gradient-to-r from-[#88583e] to-[#a08a7a] text-white px-6 py-2 rounded-full hover:from-[#7a4e36] hover:to-[#8f7b6c] transition shadow-lg shadow-[#88583e]/30"
               >
                 Book Now
               </button>
@@ -182,19 +180,20 @@ export default function App() {
             </button>
           </div>
 
-          {/* Mobile Menu */}
-          {isMenuOpen && (
-            <div className="md:hidden pb-4 bg-black/95">
-              <button onClick={() => scrollToSection('work')} className="block w-full text-left py-2 text-gray-300 hover:text-blue-400">Our Work</button>
-              <button onClick={() => scrollToSection('services')} className="block w-full text-left py-2 text-gray-300 hover:text-blue-400">Services</button>
-              <button onClick={() => scrollToSection('team')} className="block w-full text-left py-2 text-gray-300 hover:text-blue-400">Team</button>
-              <button onClick={() => scrollToSection('testimonials')} className="block w-full text-left py-2 text-gray-300 hover:text-blue-400">Testimonials</button>
-              <button onClick={() => scrollToSection('contact')} className="block w-full text-left py-2 text-gray-300 hover:text-blue-400">Contact</button>
-              <button onClick={() => scrollToSection('quote')} className="block w-full text-left py-2 text-blue-400 hover:text-blue-300 font-semibold">Book Now</button>
-            </div>
-          )}
         </div>
       </nav>
+
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="md:hidden fixed inset-0 top-16 bg-white z-40 px-4 pt-6">
+          <button onClick={() => scrollToSection('work')} className="block w-full text-left py-3 text-gray-800 hover:text-blue-600 text-lg">Our Work</button>
+          <button onClick={() => scrollToSection('services')} className="block w-full text-left py-3 text-gray-800 hover:text-blue-600 text-lg">Services</button>
+          <button onClick={() => scrollToSection('team')} className="block w-full text-left py-3 text-gray-800 hover:text-blue-600 text-lg">Team</button>
+          <button onClick={() => scrollToSection('testimonials')} className="block w-full text-left py-3 text-gray-800 hover:text-blue-600 text-lg">Testimonials</button>
+          <button onClick={() => scrollToSection('contact')} className="block w-full text-left py-3 text-gray-800 hover:text-blue-600 text-lg">Contact</button>
+          <button onClick={() => scrollToSection('quote')} className="block w-full text-left py-3 text-blue-600 hover:text-blue-500 font-semibold text-lg">Book Now</button>
+        </div>
+      )}
 
       {/* Banner Carousel */}
       <section className="relative h-96 md:h-[500px] overflow-hidden">
