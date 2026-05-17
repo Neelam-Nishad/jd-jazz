@@ -7,9 +7,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from './components/ui/dialog';
+import TeamPage from './components/TeamPage';
 
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState<'home' | 'team'>('home');
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
@@ -98,7 +100,7 @@ export default function App() {
     setIsSubmitting(true);
 
     const emailForm = new FormData();
-    emailForm.append('_subject', 'JD Jazz Inquiry');
+    emailForm.append('_subject', 'Taal House Inquiry');
     emailForm.append('_template', 'table');
     emailForm.append('_captcha', 'false');
     emailForm.append('Name', formData.name);
@@ -205,13 +207,13 @@ export default function App() {
       <nav className="fixed top-0 w-full bg-white backdrop-blur-sm border-b border-blue-500/20 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-              <img src="/logo.jpg" alt="JD Jazz Logo" className="h-16 p-2" />
+              <img src="/logo.jpg" alt="Taal House Logo" className="h-16 p-2" />
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-8">
               <button onClick={() => scrollToSection('work')} className="text-gray-900 hover:text-[#7a4e36] transition">Our Work</button>
               <button onClick={() => scrollToSection('services')} className="text-gray-900 hover:text-[#7a4e36] transition">Services</button>
-              <button onClick={() => scrollToSection('team')} className="text-gray-900 hover:text-[#7a4e36] transition">Team</button>
+              <button onClick={() => setCurrentPage('team')} className="text-gray-900 hover:text-[#7a4e36] transition">Team</button>
               <button onClick={() => scrollToSection('testimonials')} className="text-gray-900 hover:text-[#7a4e36] transition">Testimonials</button>
               <button onClick={() => scrollToSection('contact')} className="text-gray-900 hover:text-[#7a4e36] transition">Contact</button>
               <button
@@ -223,12 +225,25 @@ export default function App() {
             </div>
 
             {/* Mobile Menu Button */}
-            <button
-              className="md:hidden text-[#88583e]"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+            <div className="md:hidden flex items-center gap-3">
+              <a
+                href="https://wa.me/918920792553"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#25D366]"
+                aria-label="Chat on WhatsApp"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+              </a>
+              <button
+                className="text-[#88583e]"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+              >
+                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
           </div>
 
         </div>
@@ -239,7 +254,7 @@ export default function App() {
         <div className="md:hidden fixed inset-0 top-16 bg-white z-40 px-4 pt-6">
           <button onClick={() => scrollToSection('work')} className="block w-full text-left py-3 text-gray-800 hover:text-blue-600 text-lg">Our Work</button>
           <button onClick={() => scrollToSection('services')} className="block w-full text-left py-3 text-gray-800 hover:text-blue-600 text-lg">Services</button>
-          <button onClick={() => scrollToSection('team')} className="block w-full text-left py-3 text-gray-800 hover:text-blue-600 text-lg">Team</button>
+          <button onClick={() => { setCurrentPage('team'); setIsMenuOpen(false); }} className="block w-full text-left py-3 text-gray-800 hover:text-blue-600 text-lg">Team</button>
           <button onClick={() => scrollToSection('testimonials')} className="block w-full text-left py-3 text-gray-800 hover:text-blue-600 text-lg">Testimonials</button>
           <button onClick={() => scrollToSection('contact')} className="block w-full text-left py-3 text-gray-800 hover:text-blue-600 text-lg">Contact</button>
           <button
@@ -251,8 +266,17 @@ export default function App() {
         </div>
       )}
 
+      {/* Team Page */}
+      {currentPage === 'team' && (
+        <TeamPage
+          teamMembers={teamMembers}
+          onBack={() => setCurrentPage('home')}
+        />
+      )}
+
+      {currentPage === 'home' && <>
       {/* Banner Carousel */}
-      <section className="relative h-96 md:h-[500px] overflow-hidden">
+      <section className="relative h-[520px] md:h-[500px] overflow-hidden">
         <div className="relative w-full h-full">
           {bannerImages.map((image, index) => (
             <motion.div
@@ -280,41 +304,24 @@ export default function App() {
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-left text-white w-full max-w-2xl"
+            className="text-left text-white w-[80%] sm:w-[60%]"
           >
-            <div className="flex flex-col gap-4 sm:gap-6">
-              <div className="flex flex-col gap-3 sm:gap-4">
-                <div className="flex items-center gap-3">
-                  <div className="bg-gradient-to-br from-cyan-400 to-blue-500 p-2 sm:p-3 rounded-full flex-shrink-0 shadow-lg">
-                    <MapPin size={20} className="sm:w-6 sm:h-6 text-white" />
-                  </div>
-                  <div>
-                    <p className="text-xs sm:text-sm text-gray-200">In-Person Classes</p>
-                    <p className="text-sm sm:text-lg font-bold text-white drop-shadow-lg">Available Across India</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="bg-gradient-to-br from-amber-400 to-orange-500 p-2 sm:p-3 rounded-full flex-shrink-0 shadow-lg">
-                    <Play size={20} className="sm:w-6 sm:h-6 text-white" />
-                  </div>
-                  <div>
-                    <p className="text-xs sm:text-sm text-gray-200">Online Choreography</p>
-                    <p className="text-sm sm:text-lg font-bold text-white drop-shadow-lg">Teach Worldwide</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="bg-gradient-to-br from-pink-400 to-rose-500 p-2 sm:p-3 rounded-full flex-shrink-0 shadow-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="sm:w-6 sm:h-6 text-white"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                  </div>
-                  <div>
-                    <p className="text-xs sm:text-sm text-gray-200">Event Performances</p>
-                    <p className="text-sm sm:text-lg font-bold text-white drop-shadow-lg">Professional Dancers</p>
-                  </div>
-                </div>
-              </div>
-              <p className="text-gray-100 text-sm sm:text-base lg:text-lg drop-shadow-lg font-medium max-w-lg">
-                We teach choreography to individuals and groups, and provide professional performance teams for weddings, corporate events, and cultural celebrations
+            <div className="flex flex-col gap-4">
+              <h1 className="font-bold text-white drop-shadow-lg" style={{ fontSize: '24px' }}>
+                Learn, Perform &amp; Celebrate with Taal House
+              </h1>
+              <p className="text-gray-100 drop-shadow-lg" style={{ fontSize: '16px' }}>
+                In-person choreography classes across India, online training worldwide, and professional performance teams for weddings, corporate events &amp; cultural celebrations.
               </p>
+              <div>
+                <button
+                  onClick={() => scrollToSection('contact')}
+                  className="bg-white text-black font-semibold px-6 py-2.5 rounded-full hover:bg-gray-100 transition shadow-lg"
+                  style={{ fontSize: '16px' }}
+                >
+                  Contact Now
+                </button>
+              </div>
             </div>
           </motion.div>
         </div>
@@ -572,39 +579,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* Team Section */}
-      <section id="team" className="py-20 bg-gradient-to-b from-[#88583e] to-[#a08a7a]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-5xl text-center mb-16 text-white">
-            Meet Our Team
-          </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {teamMembers.map((member, index) => (
-              <motion.div
-                key={index}
-                className="text-center"
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <a href={member.profile} target="_blank" rel="noopener noreferrer" className="block group">
-                  <div className="relative mb-4 overflow-hidden rounded-full w-48 h-48 mx-auto border-4 border-blue-500/30 group-hover:border-blue-500 transition-all duration-300 shadow-lg shadow-blue-500/20">
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      className="w-full h-full object-cover group-hover:scale-110 transition duration-300"
-                    />
-                  </div>
-                  <h3 className="text-xl mb-2 text-white">{member.name}</h3>
-                  <p className="text-gray-300">{member.role}</p>
-                </a>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Testimonials */}
       <section id="testimonials" className="py-20 bg-gradient-to-b from-[#88583e] to-[#a08a7a]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -734,16 +708,16 @@ export default function App() {
                     <Phone className="text-[#88583e] mt-1" size={24} />
                     <div>
                       <p className="font-semibold text-white">Phone</p>
-                      <p className="text-gray-300">+91 87004 31822</p>
-                      <p className="text-gray-300">+91 86840 21907</p>
+                      <p className="text-gray-300">+91 93183 44951</p>
+                      <p className="text-gray-300">+91 89207 92553</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
                     <Mail className="text-[#88583e] mt-1" size={24} />
                     <div>
                       <p className="font-semibold text-white">Email</p>
-                      <p className="text-gray-300">info@jdjazzacademy.com</p>
-                      <p className="text-gray-300">bookings@jdjazzacademy.com</p>
+                      <p className="text-gray-300">team@taalhouse.com</p>
+                      <p className="text-gray-300">neelam@taalhouse.com</p>
                     </div>
                   </div>
                 </div>
@@ -766,7 +740,7 @@ export default function App() {
             {/* Brand */}
             <div className="text-center md:text-left">
               <div className="text-3xl font-bold text-gray-900 mb-4">
-                <img src="/logo.jpg" alt="JD Jazz Logo" className="h-16 p-2 m-auto" />
+                <img src="/logo.jpg" alt="Taal House Logo" className="h-16 p-2 m-auto" />
               </div>
               <p className="text-gray-700">Making every event memorable through the art of dance</p>
             </div>
@@ -777,7 +751,7 @@ export default function App() {
               <div className="space-y-2">
                 <button onClick={() => scrollToSection('work')} className="block w-full text-gray-700 hover:text-[#88583e] transition">Our Work</button>
                 <button onClick={() => scrollToSection('services')} className="block w-full text-gray-700 hover:text-[#88583e] transition">Services</button>
-                <button onClick={() => scrollToSection('team')} className="block w-full text-gray-700 hover:text-[#88583e] transition">Team</button>
+                <button onClick={() => setCurrentPage('team')} className="block w-full text-gray-700 hover:text-[#88583e] transition">Team</button>
                 <button onClick={() => scrollToSection('contact')} className="block w-full text-gray-700 hover:text-[#88583e] transition">Contact</button>
               </div>
             </div>
@@ -808,10 +782,11 @@ export default function App() {
           </div>
 
           <div className="border-t border-blue-500/20 pt-8 text-center">
-            <p className="text-gray-700">© 2026 JD Jazz. All rights reserved.</p>
+            <p className="text-gray-700">© 2026 Taal House. All rights reserved.</p>
           </div>
         </div>
       </footer>
+      </>}
 
       {/* Video Player Modal */}
       <Dialog open={!!selectedVideo} onOpenChange={() => setSelectedVideo(null)}>
