@@ -26,8 +26,8 @@ export default function App() {
   });
 
   const bannerImages = [
-    '/banner/garba.jpg',
     '/banner/corporate.jpg',
+    '/banner/garba.jpg',
     '/banner/Garba.png'
   ];
 
@@ -281,12 +281,10 @@ export default function App() {
           {bannerImages.map((image, index) => (
             <motion.div
               key={index}
-              className={`absolute inset-0 transition-opacity duration-1000 ${
-                index === currentImageIndex ? 'opacity-100' : 'opacity-0'
-              }`}
+              className="absolute inset-0"
               initial={{ opacity: 0 }}
               animate={{ opacity: index === currentImageIndex ? 1 : 0 }}
-              transition={{ duration: 1 }}
+              transition={{ duration: 1.2, ease: 'easeInOut' }}
             >
               <img
                 src={image}
