@@ -227,7 +227,7 @@ export default function App() {
             {/* Mobile Menu Button */}
             <div className="md:hidden flex items-center gap-3">
               <a
-                href="https://wa.me/918920792553"
+                href="https://wa.me/919318344951"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[#25D366]"
