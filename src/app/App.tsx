@@ -26,8 +26,8 @@ export default function App() {
   });
 
   const bannerImages = [
-    '/banner/sangeet.png',
-    '/banner/Corporate.png',
+    '/banner/garba.jpg',
+    '/banner/corporate.jpg',
     '/banner/Garba.png'
   ];
 
